@@ -1,0 +1,110 @@
+{
+  "02725680-b616-4908-9d06-07b7a70ccf0d": {
+    "connectionParameters": {
+      "sku": "Enterprise"
+    },
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "OneDrive for Business",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1546/1.0.1546.2665/onedriveforbusiness/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_onedriveforbusiness",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [],
+    "dependencies": {},
+    "dependents": [
+      "4560a9ce-32be-407d-bcfc-fb0bbff37201"
+    ],
+    "id": "02725680-b616-4908-9d06-07b7a70ccf0d"
+  },
+  "35cd6859-c0b5-48b2-a8bb-2ffbe420c0af": {
+    "connectionParameters": {
+      "sku": "Enterprise"
+    },
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Users",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1573/1.0.1573.2770/office365users/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365users",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Users"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "35cd6859-c0b5-48b2-a8bb-2ffbe420c0af"
+  },
+  "4560a9ce-32be-407d-bcfc-fb0bbff37201": {
+    "connectionParameters": {},
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Excel",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1570/1.0.1570.2764/excel/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_excel",
+      "parameterHints": {
+        "02725680-b616-4908-9d06-07b7a70ccf0d": {
+          "value": "fileSource"
+        }
+      },
+      "parameterHintsV2": {
+        "fileSource": {
+          "value": "02725680-b616-4908-9d06-07b7a70ccf0d"
+        }
+      }
+    },
+    "datasets": {
+      "b!glUzenyoV0O3S8waBAyJa8XU6hhZTnZEozixGzxsUhfeQB9cDgoVRaL_UzyMEDrv.01BTCUBY5T62UF7LTC25GJ47OYQHGQCJK6": {
+        "dataSources": {
+          "Facilty_Request_List": {
+            "tableName": "Facilty_Request_List"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "Facilty_Request_List"
+    ],
+    "dependencies": {
+      "fileSource": "02725680-b616-4908-9d06-07b7a70ccf0d"
+    },
+    "dependents": [],
+    "id": "4560a9ce-32be-407d-bcfc-fb0bbff37201"
+  },
+  "e8a4034f-bca8-4e6c-81bf-c13ccb9d2614": {
+    "connectionParameters": {
+      "sku": "Enterprise"
+    },
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1568/1.0.1568.2757/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://sidstech.sharepoint.com/sites/FacilityManagement": {
+        "dataSources": {
+          "Expected Day of Completion": {
+            "tableName": "114a3526-e010-4c62-ad4e-83dbde1851df"
+          },
+          "Work Tasks": {
+            "tableName": "bcc7aa24-7af9-4ee0-a260-878f55474f41"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "Work Tasks",
+      "Expected Day of Completion"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "e8a4034f-bca8-4e6c-81bf-c13ccb9d2614"
+  }
+}

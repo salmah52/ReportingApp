@@ -1,0 +1,255 @@
+SPListItemAttachmentsViewer As CanvasComponent:
+    BackgroundColor: =White
+    Border: =false
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =640
+    Items: |-
+        =Table(
+            {
+                AbsoluteUri: "https://docs.microsoft.com/en-us/media/logos/logo-ms-social.png",
+                DisplayName: "MSFT Logo 1",
+                Id: 1,
+                Value: "https://docs.microsoft.com/en-us/media/logos/logo-ms-social.png"
+            },
+            {
+                AbsoluteUri: "https://docs.microsoft.com/en-us/media/logos/logo-ms-social.png",
+                DisplayName: "MSFT Logo 2",
+                Id: 2,
+                Value: "https://docs.microsoft.com/en-us/media/logos/logo-ms-social.png"
+            }
+        )
+    OnReset: |-
+        =Set(
+            varOpenPdf,
+            false
+        );
+        Set(
+            galData,
+            ForAll(
+                Sequence(CountRows(SPListItemAttachmentsViewer.Items)),
+                Patch(
+                    Last(
+                        FirstN(
+                            SPListItemAttachmentsViewer.Items,
+                            Value
+                        )
+                    ),
+                    {RowNo: Value}
+                )
+            )
+        );
+        Reset(galAttachments)
+    TextColor: =Black
+    Width: =640
+    WrapCount: =1
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    "galAttachments As gallery.'BrowseLayout_Horizontal_TwoTextOneImageVariant_ver4.0'":
+        BorderColor: =RGBA(69, 186, 184, 1)
+        Fill: =SPListItemAttachmentsViewer.BackgroundColor
+        Height: =Parent.Height
+        Items: =galData
+        ShowNavigation: =true
+        ShowScrollbar: =false
+        TemplatePadding: =0
+        TemplateSize: =Parent.Width
+        Width: =Parent.Width
+        WrapCount: =SPListItemAttachmentsViewer.WrapCount
+        ZIndex: =1
+
+        AttachmentImage As image:
+            BorderColor: =SPListItemAttachmentsViewer.TextColor
+            BorderThickness: =If(SPListItemAttachmentsViewer.Border,2,0)
+            Height: =Parent.TemplateHeight/1.5
+            Image: |-
+                =With(
+                    {
+                        fileExtension: Last(
+                            Split(
+                                ThisItem.DisplayName,
+                                "."
+                            )
+                        ).Result
+                    },
+                    If(
+                        fileExtension in [
+                            "xlsx",
+                            "xls",
+                            "csv"
+                        ],
+                       "data:image/svg+xml;utf8, " & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 2048'><path d='M2048 475v1445q0 27-10 50t-27 40-41 28-50 10H640q-27 0-50-10t-40-27-28-41-10-50v-256H115q-24 0-44-9t-37-25-25-36-9-45V627q0-24 9-44t25-37 36-25 45-9h397V128q0-27 10-50t27-40 41-28 50-10h933q26 0 49 9t42 28l347 347q18 18 27 41t10 50zm-384-256v165h165l-165-165zM261 1424h189q2-4 12-23t25-45 29-55 29-53 23-41 10-17q27 59 60 118t65 116h187l-209-339 205-333H707q-31 57-60 114t-63 112q-29-57-57-113t-57-113H279l199 335-217 337zm379 496h1280V512h-256q-27 0-50-10t-40-27-28-41-10-50V128H640v384h397q24 0 44 9t37 25 25 36 9 45v922q0 24-9 44t-25 37-36 25-45 9H640v256zm640-1024V768h512v128h-512zm0 256v-128h512v128h-512zm0 256v-128h512v128h-512z' fill='Purple'></path></svg>"),
+                        If(
+                            fileExtension in [
+                                "png",
+                                "jpg",
+                                "jpeg",
+                                "gif"
+                            ],
+                            ThisItem.Value,
+                            If(
+                                "appres://" in ThisItem.AbsoluteUri,
+                                 "data:image/svg+xml;utf8, " & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 2048'><path d='M1115 0l549 549v91h-640V0h91zm37 512h293l-293-293v293zm384 384V768h128v128h-128zm0 256v-128h128v128h-128zm0 256v-128h128v128h-128zm0 256v-128h128v128h-128zm0 256v-128h128v128h-128zm-256 0v-128h128v128h-128zm-256 0v-128h128v128h-128zm-256 0v-128h128v128H768zm-256 0v-128h128v128H512zm-256 0v-128h128v128H256zm0-1024V768h128v128H256zm0-256V512h128v128H256zm0-256V256h128v128H256zm0-256V0h128v128H256zm256 0V0h128v128H512zm256 0V0h128v128H768zM256 1152v-128h128v128H256zm0 256v-128h128v128H256zm0 256v-128h128v128H256z' fill='Purple'></path></svg>"),
+                                If(
+                                    fileExtension in [
+                                        "pdf",
+                                        "pptx",
+                                        "docx",
+                                        "ppt",
+                                        "doc"
+                                    ] && IsBlank(Acceleration.X),
+                                    "https://thepoweraddicts.sharepoint.com/_layouts/15/getpreview.ashx?path=" & (ThisItem.AbsoluteUri) & "&resolution=6",
+                                    If(
+                                        fileExtension in "svg" && IsBlank(Acceleration.X),
+                                        ThisItem.Value,
+                                        "data:image/svg+xml;utf8, " & EncodeUrl("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 2048'><path d='M1115 0l549 549v91h-640V0h91zm37 512h293l-293-293v293zm384 384V768h128v128h-128zm0 256v-128h128v128h-128zm0 256v-128h128v128h-128zm0 256v-128h128v128h-128zm0 256v-128h128v128h-128zm-256 0v-128h128v128h-128zm-256 0v-128h128v128h-128zm-256 0v-128h128v128H768zm-256 0v-128h128v128H512zm-256 0v-128h128v128H256zm0-1024V768h128v128H256zm0-256V512h128v128H256zm0-256V256h128v128H256zm0-256V0h128v128H256zm256 0V0h128v128H512zm256 0V0h128v128H768zM256 1152v-128h128v128H256zm0 256v-128h128v128H256zm0 256v-128h128v128H256z' fill='Purple'></path></svg>")
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth - 110
+            X: =(Parent.TemplateWidth-Self.Width)/2
+            Y: =(Parent.TemplateHeight-Self.Height)/2 - 50
+            ZIndex: =1
+
+        AttachmentName As label:
+            Align: =Align.Center
+            Color: =SPListItemAttachmentsViewer.TextColor
+            Height: =Self.Size * 1.8
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =16
+            Text: =ThisItem.DisplayName
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 64
+            X: =32
+            Y: =AttachmentImage.Y + AttachmentImage.Height + 16
+            ZIndex: =2
+
+        videoPlay As videoPlayback:
+            BorderColor: =RGBA(69, 186, 184, 1)
+            Fill: =RGBA(3, 121, 137, 1)
+            Height: =AttachmentImage.Height
+            Media: =ThisItem.AbsoluteUri
+            Visible: |-
+                ="mp4" in Last(
+                        Split(
+                            ThisItem.DisplayName,
+                            "."
+                        )
+                    ).Result
+            Width: =AttachmentImage.Width
+            X: =AttachmentImage.X
+            Y: =AttachmentImage.Y
+            ZIndex: =3
+
+        audioPlay As audioPlayback:
+            BorderColor: =RGBA(69, 186, 184, 1)
+            Fill: =RGBA(3, 121, 137, 1)
+            Height: =AttachmentImage.Height
+            Media: =ThisItem.Value
+            Visible: |-
+                ="mp3" in Last(
+                        Split(
+                            ThisItem.DisplayName,
+                            "."
+                        )
+                    ).Result
+            Width: =AttachmentImage.Width
+            X: =AttachmentImage.X
+            Y: =AttachmentImage.Y
+            ZIndex: =4
+
+        icoPDF As icon.Edit:
+            BorderColor: =RGBA(69, 186, 184, 1)
+            Color: =SPListItemAttachmentsViewer.TextColor
+            Height: =41
+            Icon: =Icon.DocumentPDF
+            OnSelect: =Set(varOpenPdf,true)
+            Visible: |-
+                ="pdf" in Last(
+                        Split(
+                            ThisItem.DisplayName,
+                            "."
+                        )
+                    ).Result
+            Width: =48
+            X: =Parent.TemplateWidth-Self.Width - 10
+            Y: =15
+            ZIndex: =5
+
+        AttachmentNumber As label:
+            Align: =Align.Center
+            Color: =SPListItemAttachmentsViewer.TextColor
+            Height: =Self.Size * 1.8
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =16
+            Text: ="Showing " & ThisItem.RowNo  & " of " &  CountRows(SPListItemAttachmentsViewer.Items)
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 64
+            X: =40
+            Y: =AttachmentName.Y + AttachmentName.Height + 16
+            ZIndex: =6
+
+        icoDownload As icon.Edit:
+            BorderColor: =RGBA(69, 186, 184, 1)
+            Color: =SPListItemAttachmentsViewer.TextColor
+            Height: =37
+            Icon: =Icon.Download
+            OnSelect: =Download(ThisItem.AbsoluteUri)
+            Visible: |-
+                =Not("appres://" in ThisItem.AbsoluteUri)
+            Width: =47
+            X: =8
+            Y: =15
+            ZIndex: =7
+
+    PDFViewerAttachment As pdfViewer:
+        BorderColor: =RGBA(0, 0, 0, 1)
+        Document: =galAttachments.Selected.Value
+        Fill: =RGBA(0, 0, 0, 0.5)
+        Height: =Parent.Height
+        ShowControls: =true
+        Visible: =varOpenPdf
+        Width: =Parent.Width
+        ZIndex: =2
+
+    icoClosePDFViewer As icon.CheckBadge:
+        BorderColor: =RGBA(69, 186, 184, 1)
+        Color: =Wheat
+        Height: =37
+        Icon: =Icon.Cancel
+        OnSelect: =Set(varOpenPdf,!varOpenPdf)
+        Visible: =varOpenPdf
+        Width: =35
+        X: =Parent.Width-Self.Width-120
+        Y: =10
+        ZIndex: =4
+
+    lblNoAttachments As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(118, 0, 0, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        Size: =18
+        Text: ="No Attachments"
+        Visible: =CountRows(SPListItemAttachmentsViewer.Items)=0
+        Width: =196
+        X: =(Parent.Width-Self.Width)/2
+        Y: =(Parent.Height-Self.Height)/2
+        ZIndex: =5
+

@@ -1,0 +1,424 @@
+UserDashboard_1 As screen:
+    Fill: =RGBA(240, 240, 240, 1)
+    Height: =Max(App.Height, App.MinScreenHeight) 
+    OnVisible: = Set(varPageNumber,1)
+    Width: =Max(App.Width, App.MinScreenWidth)  
+
+    Label3_5 As label:
+        Fill: =RGBA(248, 248, 248, 1)
+        Height: =1024
+        Text: =""
+        Width: =109
+        X: =60
+        ZIndex: =3
+
+    Label1_5 As label:
+        Color: =RGBA(118, 0, 0, 1)
+        Fill: =RGBA(118, 0, 0, 1)
+        Height: =79
+        PaddingRight: =5.27
+        PaddingTop: =5.27
+        Size: =13.70
+        Text: =""
+        Width: =1380
+        X: =60
+        ZIndex: =4
+
+    Label6_5 As label:
+        Fill: =RGBA(248, 248, 248, 1)
+        Height: =878
+        Text: =""
+        Width: =1171
+        X: =229
+        Y: =109
+        ZIndex: =6
+
+    AllTasks_5 As gallery.galleryVertical:
+        Height: =196
+        Items: |
+            =//filter('facility request list',colunm_name in cmb.selecteditems)
+            SortByColumns(
+            Filter('Work Tasks',
+                   StartsWith(
+               'Request Title',
+               TextInput1_6.Text 
+                    
+              ) 
+             && (Category.Value = Ccategory.Selected.Value || Ccategory.Selected.Value = Blank())
+             && (Status.Value = Cpriority.Selected.Value ||Cpriority.Selected.Value = Blank())
+               // &&    'Requestor Email'= Uemail
+            ),
+            
+             "ID",
+             Descending
+             )
+        Layout: =Layout.Vertical
+        TemplateSize: =If(Self.Layout = Layout.Horizontal, Min(280, Self.Width - 60), Min(280, Self.Height - 60))
+        Visible: =false
+        Width: =49
+        X: =180
+        Y: =792
+        ZIndex: =18
+
+    Label9_3 As label:
+        Fill: =RGBA(240, 240, 240, 1)
+        Height: =60
+        Text: =""
+        Width: =1151
+        X: =229
+        Y: =275
+        ZIndex: =19
+
+    Home_30 As icon.Check:
+        Color: =RGBA(118, 0, 0, 1)
+        Icon: =Icon.VerticalLine
+        X: =36
+        Y: =184
+        ZIndex: =21
+
+    Home_31 As icon.Check:
+        Color: =RGBA(118, 0, 0, 1)
+        Icon: =Icon.VerticalLine
+        X: =36
+        Y: =278
+        ZIndex: =22
+
+    Home_32 As icon.Check:
+        Color: =RGBA(118, 0, 0, 1)
+        Icon: =Icon.VerticalLine
+        X: =36
+        Y: =367
+        ZIndex: =23
+
+    Home_33 As icon.Check:
+        Color: =RGBA(118, 0, 0, 1)
+        Icon: =Icon.VerticalLine
+        X: =36
+        Y: =472
+        ZIndex: =24
+
+    MHome_5 As icon.Cancel:
+        Color: =RGBA(118, 0, 0, 1)
+        Height: =39
+        Icon: =Icon.Waffle
+        OnSelect: =Navigate(HomeScreen_1)
+        Tooltip: ="Home"
+        Width: =56
+        X: =95
+        Y: =192
+        ZIndex: =27
+
+    Document_checker_5 As icon.Cancel:
+        Color: =RGBA(118, 0, 0, 1)
+        Height: =39
+        Icon: =Icon.DockCheckProperties
+        OnSelect: =Navigate(UserDashboard_1)
+        Tooltip: ="View Report"
+        Width: =56
+        X: =100
+        Y: =306
+        ZIndex: =28
+
+    Icon3_22 As icon.Cancel:
+        Color: =RGBA(118, 0, 0, 1)
+        Height: =39
+        Icon: =Icon.Add
+        OnSelect: =ResetForm(Form1);Navigate(CreateRequest);NewForm(Form1)
+        Tooltip: ="Add Report"
+        Width: =56
+        X: =100
+        Y: =387
+        ZIndex: =29
+
+    Icon3_23 As icon.Cancel:
+        Color: =RGBA(118, 0, 0, 1)
+        Height: =39
+        Icon: =Icon.DocumentWithContent
+        OnSelect: =Navigate(ViewUser)
+        Tooltip: ="Edit Report"
+        Width: =56
+        X: =100
+        Y: =495
+        ZIndex: =30
+
+    Label12_17 As label:
+        Font: =Font.Lato
+        FontWeight: =FontWeight.Bold
+        Size: =14
+        Text: ="ID"
+        Width: =140
+        X: =275
+        Y: =287
+        ZIndex: =33
+
+    Label12_14 As label:
+        Font: =Font.Lato
+        FontWeight: =FontWeight.Bold
+        Size: =14
+        Text: ="Title"
+        Width: =183
+        X: =445
+        Y: =292
+        ZIndex: =34
+
+    Label12_16 As label:
+        Font: =Font.Lato
+        FontWeight: =FontWeight.Bold
+        Size: =14
+        Text: ="Category"
+        Width: =183
+        X: =711
+        Y: =285
+        ZIndex: =35
+
+    Label12_18 As label:
+        Font: =Font.Lato
+        FontWeight: =FontWeight.Bold
+        Size: =14
+        Text: ="Request Priority"
+        Width: =183
+        X: =944
+        Y: =279
+        ZIndex: =36
+
+    Gallery3_3 As gallery.galleryVertical:
+        Height: =520
+        Items: |-
+            =// FirstN(SortByColumns(AllTasks_5.AllItems, "ID", Descending),8)
+            
+            If(
+            icoNext.DisplayMode = Disabled,
+            // Handling last set of records
+            LastN(
+            FirstN(
+            AllTasks_5.AllItems,
+            drpPaginationSize.Selected.Value * varPageNumber
+            ),
+            drpPaginationSize.Selected.Value - (drpPaginationSize.Selected.Value * varPageNumber - CountRows(AllTasks_5.AllItems))
+            ),
+            LastN(
+            FirstN(
+            AllTasks_5.AllItems,
+            drpPaginationSize.Selected.Value * varPageNumber
+            ),
+            drpPaginationSize.Selected.Value
+            )
+            )
+        Layout: =Layout.Vertical
+        TemplateSize: =57
+        Width: =1151
+        X: =229
+        Y: =342
+        ZIndex: =37
+
+        Label13_12 As label:
+            Font: =Font.Lato
+            OnSelect: =Select(Parent)
+            Text: =ThisItem.ID
+            X: =32
+            Y: =10
+            ZIndex: =1
+
+        Label13_13 As label:
+            Font: =Font.Lato
+            OnSelect: =Select(Parent)
+            Text: =ThisItem.'Request Title'
+            Width: =245
+            X: =182
+            Y: =10
+            ZIndex: =2
+
+        Label13_14 As label:
+            Font: =Font.Lato
+            OnSelect: =Select(Parent)
+            Text: =ThisItem.Category.Value
+            Width: =192
+            X: =486
+            Y: =10
+            ZIndex: =3
+
+        Label13_15 As label:
+            Font: =Font.Lato
+            OnSelect: =Select(Parent)
+            Text: =ThisItem.Status.Value
+            X: =709
+            Y: =7
+            ZIndex: =4
+
+        Icon2_2 As icon.Add:
+            Color: =RGBA(0, 0, 0, 1)
+            Height: =25
+            Icon: =Icon.View
+            OnSelect: =Set(varView, Gallery3_3.Selected);Navigate(ViewUser)
+            Rotation: =180
+            Tooltip: ="View"
+            Width: =40
+            X: =977
+            Y: =15
+            ZIndex: =5
+
+    Label12_15 As label:
+        Font: =Font.Lato
+        FontWeight: =FontWeight.Bold
+        Size: =14
+        Text: ="Action"
+        Width: =183
+        X: =1197
+        Y: =285
+        ZIndex: =45
+
+    Ccategory As combobox:
+        ChevronBackground: =RGBA(118, 0, 0, 1)
+        ChevronHoverBackground: =RGBA(238, 204, 204, 1)
+        DisplayFields: =["Value"]
+        Font: =Font.Lato
+        Height: =42
+        InputTextPlaceholder: ="Filter by Request Category"
+        IsSearchable: =false
+        Items: =Choices('Work Tasks'.Category)
+        SearchFields: =["Value"]
+        SearchItems: =[]
+        Size: =10
+        Width: =380
+        X: =624
+        Y: =127
+        ZIndex: =46
+
+    Cpriority As combobox:
+        ChevronBackground: =RGBA(118, 0, 0, 1)
+        ChevronHoverBackground: =RGBA(238, 204, 204, 1)
+        DisplayFields: =["Value"]
+        Font: =Font.Lato
+        Height: =42
+        InputTextPlaceholder: ="Filter by Request Priority"
+        IsSearchable: =false
+        Items: =Choices('Work Tasks'.Status)
+        SearchFields: =["Value"]
+        SearchItems: =[]
+        Width: =339
+        X: =1041
+        Y: =127
+        ZIndex: =47
+
+    Button2_3 As button:
+        Color: =RGBA(0, 0, 0, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.Lato
+        Height: =42
+        Text: ="All Tasks"
+        Width: =166
+        X: =249
+        Y: =216
+        ZIndex: =48
+
+    Button2_4 As button:
+        Color: =RGBA(0, 0, 0, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.Lato
+        Text: ="Completed tasks"
+        Width: =228
+        X: =450
+        Y: =218
+        ZIndex: =49
+
+    Button2_5 As button:
+        Color: =RGBA(0, 0, 0, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.Lato
+        Text: ="Incomplete tasks"
+        Width: =226
+        X: =749
+        Y: =218
+        ZIndex: =50
+
+    drpPaginationSize As dropdown:
+        Items: =[8,16,24]
+        Visible: =false
+        X: =223
+        Y: =19
+        ZIndex: =51
+
+    Icon1 As icon.ArrowLeft:
+        Color: =RGBA(118, 0, 0, 1)
+        DisplayMode: |-
+            =If(
+            varPageNumber = 1,
+            Disabled,
+            DisplayMode.Edit
+            )
+        Icon: =Icon.ArrowLeft
+        OnSelect: =Set(varPageNumber,varPageNumber-1)
+        X: =628
+        Y: =910
+        ZIndex: =52
+
+    Icon1_4 As icon.ArrowLeft:
+        Color: =RGBA(118, 0, 0, 1)
+        DisplayMode: |-
+            =If(
+            varPageNumber = 1,
+            Disabled,
+            DisplayMode.Edit
+            )
+        Icon: =Icon.ChevronLeft
+        OnSelect: =Set(varPageNumber,1)
+        X: =532
+        Y: =910
+        ZIndex: =53
+
+    Label5 As label:
+        Text: |-
+            ="Page " & varPageNumber & " of " & If(
+            Mod(
+            CountRows(AllTasks_5.AllItems),
+            100
+            ) = 0,
+            RoundUp( CountRows(AllTasks_5.AllItems) / drpPaginationSize.SelectedText.Value ,0) & "+ pages",
+            RoundUp( CountRows(AllTasks_5.AllItems) / drpPaginationSize.SelectedText.Value,0) & " page(s)"
+            )
+        Width: =200
+        X: =744
+        Y: =922
+        ZIndex: =54
+
+    icoNext As icon.ArrowLeft:
+        Color: =RGBA(118, 0, 0, 1)
+        DisplayMode: |-
+            =If(
+            drpPaginationSize.Selected.Value * varPageNumber <= CountRows(AllTasks_5.AllItems),
+            Edit,
+            Disabled
+            )
+        Icon: =Icon.ArrowRight
+        OnSelect: |
+            =Set(varPageNumber,varPageNumber+1)
+        X: =944
+        Y: =910
+        ZIndex: =55
+
+    Icon1_6 As icon.ArrowLeft:
+        Color: =RGBA(118, 0, 0, 1)
+        DisplayMode: |-
+            =If(
+            drpPaginationSize.Selected.Value * varPageNumber <= CountRows(AllTasks_5.AllItems),
+            Edit,
+            Disabled
+            )
+        Icon: =Icon.ChevronRight
+        OnSelect: =Set(varPageNumber, RoundUp( CountRows(AllTasks_5.AllItems) / drpPaginationSize.SelectedText.Value ,0) )
+        X: =1063
+        Y: =910
+        ZIndex: =56
+
+    TextInput1_6 As text:
+        Default: =""
+        Font: =Font.Lato
+        Height: =51
+        HintText: ="Search request title"
+        PaddingLeft: =5
+        Size: =15
+        Width: =573
+        X: =490
+        Y: =14
+        ZIndex: =57
+

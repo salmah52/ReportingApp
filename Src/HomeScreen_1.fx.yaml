@@ -1,0 +1,366 @@
+HomeScreen_1 As screen:
+    Fill: =RGBA(240, 240, 240, 1)
+    Height: =Max(App.Height, App.MinScreenHeight) 
+    Width: =Max(App.Width, App.MinScreenWidth)  
+
+    Label3_2 As label:
+        Fill: =RGBA(248, 248, 248, 1)
+        Height: =1024
+        Text: =""
+        Width: =109
+        X: =60
+        ZIndex: =1
+
+    Label1_6 As label:
+        Fill: =RGBA(118, 0, 0, 1)
+        Height: =79
+        PaddingRight: =5.27
+        PaddingTop: =5.27
+        Size: =13.70
+        Text: =""
+        Width: =1380
+        X: =60
+        ZIndex: =2
+
+    Label4_2 As label:
+        Fill: =RGBA(248, 248, 248, 1)
+        Height: =391
+        Text: =""
+        Width: =1135
+        X: =229
+        Y: =136
+        ZIndex: =3
+
+    Label6_2 As label:
+        Fill: =RGBA(248, 248, 248, 1)
+        Height: =428
+        Text: =""
+        Width: =1151
+        X: =229
+        Y: =559
+        ZIndex: =4
+
+    TextInput1_4 As text:
+        Default: =""
+        Font: =Font.Lato
+        Height: =51
+        HintText: ="Search request title"
+        PaddingLeft: =5
+        Size: =15
+        Width: =573
+        X: =518
+        Y: =20
+        ZIndex: =5
+
+    Icon1_5 As icon.Search:
+        Color: =RGBA(45, 45, 45, 1)
+        Height: =51
+        Icon: =Icon.Search
+        Width: =43
+        X: =1037
+        Y: =20
+        ZIndex: =6
+
+    Label7_4 As label:
+        Color: =RGBA(91, 77, 76, 1)
+        Font: =Font.Lato
+        FontWeight: =FontWeight.Bold
+        Height: =52
+        Size: =24
+        Text: ="Hello, "& User().FullName
+        Width: =735
+        X: =248
+        Y: =193
+        ZIndex: =7
+
+    Label7_5 As label:
+        Color: =RGBA(91, 77, 76, 1)
+        Font: =Font.Lato
+        Height: =52
+        Size: =20
+        Text: ="View an overview of all tasks"
+        Width: =735
+        X: =265
+        Y: =257
+        ZIndex: =8
+
+    AllTasks_2 As gallery.galleryVertical:
+        Height: =196
+        Items: |
+            =// Filter(Table_query__2,StartsWith('Request Title', txtSearch.Text))
+            //Facilty_Request_List
+            Filter('Work Tasks', StartsWith( 'Request Title', TextInput1_4.Text))
+        Layout: =Layout.Vertical
+        TemplateSize: =If(Self.Layout = Layout.Horizontal, Min(280, Self.Width - 60), Min(280, Self.Height - 60))
+        Visible: =false
+        Width: =49
+        X: =180
+        Y: =792
+        ZIndex: =9
+
+    Label9_2 As label:
+        Fill: =RGBA(240, 240, 240, 1)
+        Height: =60
+        Text: =""
+        Width: =1151
+        X: =229
+        Y: =591
+        ZIndex: =10
+
+    Label11_2 As label:
+        Font: =Font.Lato
+        FontWeight: =FontWeight.Semibold
+        Height: =36
+        Text: ="Recent Tasks"
+        Width: =216
+        X: =243
+        Y: =559
+        ZIndex: =11
+
+    Home_1 As icon.Cancel:
+        Color: =RGBA(118, 0, 0, 1)
+        Height: =39
+        Icon: =Icon.Waffle
+        OnSelect: =Navigate(HomeScreen_1)
+        Tooltip: ="Home"
+        Width: =56
+        X: =95
+        Y: =192
+        ZIndex: =13
+
+    ViewReport_1 As icon.Cancel:
+        Color: =RGBA(118, 0, 0, 1)
+        Height: =39
+        Icon: =Icon.DockCheckProperties
+        OnSelect: =Navigate(UserDashboard_1)
+        Tooltip: ="View Report"
+        Width: =56
+        X: =100
+        Y: =306
+        ZIndex: =14
+
+    NewRequest_1 As icon.Cancel:
+        Color: =RGBA(118, 0, 0, 1)
+        Height: =39
+        Icon: =Icon.Add
+        OnSelect: =ResetForm(Form1);Navigate(CreateRequest);NewForm(Form1)
+        Tooltip: ="Add Report"
+        Width: =56
+        X: =100
+        Y: =387
+        ZIndex: =15
+
+    UserView_1 As icon.Cancel:
+        Color: =RGBA(118, 0, 0, 1)
+        Height: =39
+        Icon: =Icon.DocumentWithContent
+        OnSelect: =Navigate(ViewUser)
+        Tooltip: ="Edit Report"
+        Width: =56
+        X: =100
+        Y: =495
+        ZIndex: =16
+
+    Label12_12 As label:
+        Font: =Font.Lato
+        FontWeight: =FontWeight.Bold
+        Size: =14
+        Text: ="ID"
+        Width: =140
+        X: =249
+        Y: =602
+        ZIndex: =17
+
+    Label12_13 As label:
+        Font: =Font.Lato
+        FontWeight: =FontWeight.Bold
+        Size: =14
+        Text: ="Title"
+        Width: =135
+        X: =422
+        Y: =606
+        ZIndex: =18
+
+    Label12_8 As label:
+        Font: =Font.Lato
+        FontWeight: =FontWeight.Bold
+        Size: =14
+        Text: ="Category"
+        Width: =198
+        X: =741
+        Y: =598
+        ZIndex: =19
+
+    Label12_11 As label:
+        Font: =Font.Lato
+        FontWeight: =FontWeight.Bold
+        Size: =14
+        Text: ="Request Priority"
+        Width: =183
+        X: =969
+        Y: =601
+        ZIndex: =20
+
+    Gallery3_2 As gallery.galleryVertical:
+        Height: =331
+        Items: =FirstN(SortByColumns(AllTasks_2.AllItems, "ID", Descending),5)
+        Layout: =Layout.Vertical
+        TemplateSize: =57
+        Width: =1151
+        X: =229
+        Y: =657
+        ZIndex: =21
+
+        Label13_8 As label:
+            Font: =Font.Lato
+            OnSelect: =Select(Parent)
+            Text: =ThisItem.ID
+            Width: =82
+            X: =17
+            ZIndex: =1
+
+        Label13_9 As label:
+            Font: =Font.Lato
+            OnSelect: =Select(Parent)
+            Text: =ThisItem.'Request Title'
+            Width: =257
+            X: =169
+            ZIndex: =2
+
+        Label13_10 As label:
+            Font: =Font.Lato
+            OnSelect: =Select(Parent)
+            Text: =ThisItem.Category.Value
+            Width: =212
+            X: =511
+            Y: =2
+            ZIndex: =3
+
+        Label13_11 As label:
+            Font: =Font.Lato
+            OnSelect: =Select(Parent)
+            Text: =ThisItem.Status.Value
+            X: =738
+            Y: =2
+            ZIndex: =4
+
+        Icon2_1 As icon.Add:
+            Color: =RGBA(0, 0, 0, 1)
+            Height: =25
+            Icon: =Icon.View
+            OnSelect: =Set(varView, Gallery3_2.Selected);Navigate(ViewUser)
+            Rotation: =180
+            Tooltip: ="View"
+            Width: =40
+            X: =1003
+            Y: =15
+            ZIndex: =5
+
+    Button1_5 As button:
+        BorderColor: =RGBA(98, 103, 217, 1)
+        Color: =RGBA(50, 86, 160, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =177
+        HoverFill: =RGBA(215, 223, 240, 1)
+        RadiusBottomLeft: =250
+        RadiusBottomRight: =250
+        RadiusTopLeft: =250
+        RadiusTopRight: =250
+        Text: =CountRows(AllTasks_2.AllItems)
+        Width: =177
+        X: =289
+        Y: =326
+        ZIndex: =22
+
+    Button1_4 As button:
+        BorderColor: =RGBA(74, 175, 5, 1)
+        Color: =RGBA(74, 175, 5, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =177
+        HoverFill: =RGBA(232, 244, 217, 1)
+        RadiusBottomLeft: =250
+        RadiusBottomRight: =250
+        RadiusTopLeft: =250
+        RadiusTopRight: =250
+        Text: =CountRows(Filter(AllTasks_2.AllItems,Status.Value= "Completed"))
+        Width: =177
+        X: =504
+        Y: =319
+        ZIndex: =23
+
+    Button1_3 As button:
+        BorderColor: =RGBA(255, 75, 92, 1)
+        Color: =RGBA(255, 75, 92, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =177
+        HoverFill: =RGBA(238, 204, 204, 1)
+        RadiusBottomLeft: =250
+        RadiusBottomRight: =250
+        RadiusTopLeft: =250
+        RadiusTopRight: =250
+        Text: =  CountRows(Filter(AllTasks_2.AllItems,Status.Value= "In Progress"))
+        Width: =177
+        X: =721
+        Y: =310
+        ZIndex: =24
+
+    Label10_5 As label:
+        Align: =Align.Center
+        Color: =RGBA(98, 103, 217, 1)
+        Font: =Font.Lato
+        FontWeight: =FontWeight.Bold
+        Text: ="All Tasks"
+        X: =303
+        Y: =431
+        ZIndex: =25
+
+    Label10_4 As label:
+        Align: =Align.Center
+        Color: =RGBA(74, 175, 5, 1)
+        Font: =Font.Lato
+        FontWeight: =FontWeight.Bold
+        Text: ="Completed"
+        X: =518
+        Y: =427
+        ZIndex: =26
+
+    Label10_3 As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 75, 92, 1)
+        Font: =Font.Lato
+        FontWeight: =FontWeight.Bold
+        Text: ="Incomplete"
+        X: =734
+        Y: =416
+        ZIndex: =27
+
+    Label12_10 As label:
+        Font: =Font.Lato
+        FontWeight: =FontWeight.Bold
+        Height: =47
+        Size: =14
+        Text: ="Action"
+        Width: =148
+        X: =1225
+        Y: =595
+        ZIndex: =28
+
+    Button4_1 As button:
+        Fill: =RGBA(118, 0, 0, 1)
+        Height: =84
+        HoverFill: =RGBA(238, 204, 204, 1)
+        OnSelect: =ResetForm(Form1);Navigate(CreateRequest);NewForm(Form1)
+        Text: ="Create New Report"
+        Width: =219
+        X: =1080
+        Y: =191
+        ZIndex: =29
+
+    Label3 As label:
+        Height: =54
+        Text: =""
+        Width: =20
+        X: =
+        Y: =191
+        ZIndex: =30
+
